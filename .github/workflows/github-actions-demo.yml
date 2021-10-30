@@ -38,5 +38,17 @@ jobs:
         ECR_REPOSITORY: duytm-aws-repository
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+  pull:
+    - name: Pull image
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using ssh key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        known_hosts: ec2-18-140-58-196.ap-southeast-1.compute.amazonaws.com
+        name: id_rsa
+        key: ${{ secrets.COBOTSSH }}
+    - name: Run cmd ssh
+      run: ssh -i ${{ secrets.COBOTSSH }} ec2-user@ec2-18-140-58-196.ap-southeast-1.compute.amazonaws.com
