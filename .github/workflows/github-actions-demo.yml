@@ -41,7 +41,7 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
   MECHAMAY:
-    - name: Pull image
+    name: Pull image
     runs-on: ubuntu-latest
     steps:
     - name: executing remote ssh commands using ssh key
